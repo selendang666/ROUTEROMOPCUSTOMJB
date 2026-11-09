@@ -1,0 +1,68 @@
+services:
+  ohmyomop-router:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: ohmyomop-router
+    restart: unless-stopped
+    init: true
+    ports:
+      - "12800:12800"
+    environment:
+      - PORT=12800
+      - DATABASE_URL=${DATABASE_URL:-postgres://ohmyomop_router:ohmyomop_router@postgres:5432/ohmyomop_router}
+      - REDIS_URL=${REDIS_URL:-}
+      - APP_SECRET=${APP_SECRET:?APP_SECRET must be set}
+      - PUBLIC_ORIGIN=${PUBLIC_ORIGIN:?PUBLIC_ORIGIN must be set}
+      - TRUST_PROXY=${TRUST_PROXY:-false}
+      - PROXY_API_KEY=${PROXY_API_KEY:?PROXY_API_KEY must be set}
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+        required: false
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://127.0.0.1:12800/health/ready >/dev/null || exit 1"]
+      interval: 30s
+      timeout: 5s
+      start_period: 20s
+      retries: 3
+
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ohmyomop_router
+      POSTGRES_PASSWORD: ohmyomop_router
+      POSTGRES_DB: ohmyomop_router
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ohmyomop_router -d ohmyomop_router"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    profiles: ["redis"]
+    command: ["redis-server", "--save", "", "--appendonly", "no"]
+    ports:
+      - "6379:6379"
+    volumes:
+      - redisdata:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 5s
+
+volumes:
+  pgdata:
+  redisdata:

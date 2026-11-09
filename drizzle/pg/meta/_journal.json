@@ -1,0 +1,181 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1787897224064,
+      "tag": "001_initial",
+      "breakpoints": false
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1787532719941,
+      "tag": "002_indexes",
+      "breakpoints": false
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1787536876670,
+      "tag": "003_account_quota",
+      "breakpoints": false
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1787539829524,
+      "tag": "004_provider_compatibility_profiles",
+      "breakpoints": false
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1787557118738,
+      "tag": "005_cli_tools",
+      "breakpoints": false
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1787557760771,
+      "tag": "006_filter_rules",
+      "breakpoints": false
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1787570271751,
+      "tag": "007_ip_bans",
+      "breakpoints": false
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1787574439141,
+      "tag": "008_rate_limit_counters",
+      "breakpoints": false
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1787734125466,
+      "tag": "009_provider_model_metadata",
+      "breakpoints": false
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1787735872231,
+      "tag": "010_seed_filter_rules",
+      "breakpoints": false
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1787737314284,
+      "tag": "011_beta_filter_rules",
+      "breakpoints": false
+    },
+    {
+      "idx": 11,
+      "version": "7",
+      "when": 1787737314289,
+      "tag": "012_fix_anthropic_filter_pattern",
+      "breakpoints": false
+    },
+    {
+      "idx": 12,
+      "version": "7",
+      "when": 1787775818550,
+      "tag": "013_api-key-contract",
+      "breakpoints": false
+    },
+    {
+      "idx": 13,
+      "version": "7",
+      "when": 1787832800997,
+      "tag": "014_wireguard_tunnels",
+      "breakpoints": false
+    },
+    {
+      "idx": 14,
+      "version": "7",
+      "when": 1787833055046,
+      "tag": "015_disable_stale_wireguard_proxies",
+      "breakpoints": false
+    },
+    {
+      "idx": 15,
+      "version": "7",
+      "when": 1787835003744,
+      "tag": "016_wireguard_port_release",
+      "breakpoints": false
+    },
+    {
+      "idx": 16,
+      "version": "7",
+      "when": 1787897196902,
+      "tag": "017_add_tffb_ms",
+      "breakpoints": false
+    },
+    {
+      "idx": 17,
+      "version": "7",
+      "when": 1787902803893,
+      "tag": "018_add_cli_allowed_keys",
+      "breakpoints": false
+    },
+    {
+      "idx": 18,
+      "version": "7",
+      "when": 1788004259397,
+      "tag": "019_backend_finalization",
+      "breakpoints": false
+    },
+    {
+      "idx": 19,
+      "version": "7",
+      "when": 1788017737753,
+      "tag": "020_telemetry_aggregates",
+      "breakpoints": false
+    },
+    {
+      "idx": 20,
+      "version": "7",
+      "when": 1788100000000,
+      "tag": "021_hot_snapshot_indexes",
+      "breakpoints": false
+    },
+    {
+      "idx": 21,
+      "version": "7",
+      "when": 1788100000001,
+      "tag": "022_error_taxonomy_columns",
+      "breakpoints": false
+    },
+    {
+      "idx": 22,
+      "version": "7",
+      "when": 1788100000002,
+      "tag": "023_console_log_context",
+      "breakpoints": false
+    },
+    {
+      "idx": 23,
+      "version": "7",
+      "when": 1790054318479,
+      "tag": "024_buyers",
+      "breakpoints": false
+    },
+    {
+      "idx": 24,
+      "version": "7",
+      "when": 1790130785969,
+      "tag": "025_coolify_monitoring",
+      "breakpoints": true
+    }
+  ]
+}

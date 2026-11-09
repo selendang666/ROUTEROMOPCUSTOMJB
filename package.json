@@ -1,0 +1,83 @@
+{
+  "name": "ohmyomop-router",
+  "version": "2.1.0-beta",
+  "description": "Oh My Omop - Router — self-hosted AI proxy router with an authenticated dashboard, routing OpenAI ↔ Anthropic and other compatible upstreams.",
+  "private": true,
+  "type": "module",
+  "module": "src/main.ts",
+  "scripts": {
+    "dev": "bun run --watch src/main.ts",
+    "stop": "bun run infra:down",
+    "test": "bun test --timeout 60000 ./src ./test",
+    "test:unit": "bun test --timeout 60000 ./src",
+    "test:contract": "bun test --timeout 60000 ./test",
+    "build": "bun build --compile --minify --bytecode --target bun --outfile bin/ohmyomop-router src/main.ts",
+    "setup": "bun run scripts/setup.ts",
+    "start": "bun run src/main.ts",
+    "doctor": "bun run scripts/dev/doctor.ts",
+    "dev:all": "bun run scripts/dev-all.ts",
+    "infra:up": "bun run scripts/infra.ts up",
+    "stop:win": "powershell -NoProfile -ExecutionPolicy Bypass -File ./scripts/windows/stop.ps1",
+    "build:all": "bun run build:dashboard && bun run build",
+    "bun:build": "bun run scripts/dev/build.ts",
+    "setup:win": "bun run scripts/setup.ts",
+    "setup:mac": "bun run scripts/setup.ts",
+    "setup:linux": "bun run scripts/setup.ts",
+    "setup:unix": "bash ./scripts/unix/setup.sh",
+    "warp:pool": "bun run scripts/warp-generate.ts --count 5 --out ./pool",
+    "build:core": "bun build --compile --minify --bytecode --target bun --outfile bin/ohmyomop-router-core src/main.ts",
+    "db:migrate": "bun run scripts/dev/migrate.ts",
+    "infra:down": "bun run scripts/infra.ts down",
+    "dev:dashboard": "bun run --cwd dashboard dev",
+    "infra:status": "bun run scripts/infra.ts status",
+    "version:sync": "bun run scripts/dev/sync-versions.ts --write",
+    "test:coverage": "bun test --timeout 60000 ./src ./test --coverage",
+    "version:check": "bun run scripts/dev/sync-versions.ts --check",
+    "prebuild": "bun run version:check",
+    "pretest": "bun run version:check",
+    "warp:generate": "bun run scripts/warp-generate.ts",
+    "build:optional": "OHMYOMOP_ROUTER_PROVIDER_PROFILE=optional bun build --compile --minify --bytecode --target bun --outfile bin/ohmyomop-router-optional src/main.ts",
+    "build:dashboard": "cd dashboard && bun run build"
+  },
+  "providerProfiles": {
+    "core": {
+      "description": "Core wire families eagerly imported: openai, anthropic, gemini, cloudflare, openai-compatible factory (incl. opencode). No generated protobuf.",
+      "entry": "src/providers/registry.ts#createDefaultRegistry"
+    },
+    "optional": {
+      "description": "Protobuf-heavy Cursor/Devin isolated behind explicit lazy profile. Must call registerOptionalProviders() with OHMYOMOP_ROUTER_PROVIDER_PROFILE=optional or OHMYOMOP_ROUTER_OPTIONAL_PROVIDERS=cursor,devin. Generated LOC (~70k) loaded only via dynamic import().",
+      "providers": [
+        "cursor",
+        "devin"
+      ],
+      "isolatedPaths": [
+        "src/providers/oauth-provider/proto/cursor/**",
+        "src/providers/oauth-provider/proto/devin/**",
+        "src/providers/oauth-provider/cursor.ts",
+        "src/providers/oauth-provider/devin.ts"
+      ],
+      "activation": [
+        "OHMYOMOP_ROUTER_PROVIDER_PROFILE=optional",
+        "OHMYOMOP_ROUTER_OPTIONAL_PROVIDERS=cursor,devin",
+        "OHMYOMOP_ROUTER_ENABLE_CURSOR=1",
+        "OHMYOMOP_ROUTER_ENABLE_DEVIN=1"
+      ],
+      "catalogFallback": "none — no fake entries when disabled"
+    }
+  },
+  "dependencies": {
+    "@bufbuild/protobuf": "2.13.0",
+    "@noble/curves": "1.8.1",
+    "drizzle-orm": "^0.45.2",
+    "elysia": "2.0.0-beta.6",
+    "fflate": "^0.8.3",
+    "socks-proxy-agent": "^10.1.0"
+  },
+  "devDependencies": {
+    "@bufbuild/protoc-gen-es": "2.13.0",
+    "@types/bun": "1.4.0",
+    "drizzle-kit": "^0.31.10",
+    "knip": "5.84.0",
+    "typescript": "5.7.3"
+  }
+}

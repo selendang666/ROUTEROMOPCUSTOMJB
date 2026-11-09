@@ -1,0 +1,23 @@
+node_modules/
+dist/
+bun.lock
+!bun.lock
+!dashboard/bun.lock
+.env
+*.log
+data/
+.codegraph/
+__pycache__/
+
+# MultiWarp
+bin/
+
+
+*.bun-build
+keys.json
+persona.md
+relays.json
+upstream.json
+relay_urls.txt
+.vercel
+relay-*/

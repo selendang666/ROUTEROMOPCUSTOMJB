@@ -1,0 +1,30 @@
+{
+  "$schema": "https://unpkg.com/knip@5/schema.json",
+  "entry": [
+    "src/main.ts",
+    "src/**/*.test.ts",
+    "test/**/*.test.ts",
+    "dashboard/src/main.tsx",
+    "dashboard/src/landing/main.tsx",
+    "dashboard/src/share-main.tsx",
+    "dashboard/test/**/*.ts",
+    "dashboard/test/**/*.tsx"
+  ],
+  "project": [
+    "src/**/*.ts",
+    "src/**/*.test.ts",
+    "test/**/*.ts",
+    "dashboard/src/**/*.ts",
+    "dashboard/src/**/*.tsx",
+    "dashboard/test/**/*.ts",
+    "dashboard/test/**/*.tsx"
+  ],
+  "ignore": [
+    "src/providers/**/proto-gen/**",
+    "src/providers/**/proto/**",
+    "dashboard/src/apps/**",
+    "dashboard/src/features/console-log/page.tsx"
+  ],
+  "ignoreDependencies": ["@bufbuild/protobuf"],
+  "ignoreExportsUsedInFile": true
+}

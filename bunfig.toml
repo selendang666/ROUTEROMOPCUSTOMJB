@@ -1,0 +1,19 @@
+# Oh My Omop - Router — Bun config (cross-OS, wave 1)
+# `bunfig.toml` is the authoritative Bun config for install/test/run.
+# Kept minimal; scripts use Bun.spawn argument arrays and node:path for Windows safety.
+
+[install]
+# Use default npm registry; lockfile is committed
+# cache is Bun-managed; no custom path to avoid Windows permission surprises
+registry = "https://registry.npmjs.org"
+
+[install.cache]
+# Disable per-project cache dir — use Bun's global cache (Windows-safe)
+disableManifestCache = false
+
+[test]
+timeout = 60000
+
+[run]
+# Bun shell is not used by scripts/* (they use Bun.spawn arrays); keep shell default
+# No `shell` override here — Windows-safe scripts avoid Bash/grep/sed assumptions

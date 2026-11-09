@@ -1,0 +1,13 @@
+CREATE INDEX IF NOT EXISTS idx_request_events_trace_id ON request_events(trace_id);
+CREATE INDEX IF NOT EXISTS idx_request_events_created_at ON request_events(created_at);
+CREATE INDEX IF NOT EXISTS idx_request_events_provider_created ON request_events(provider, created_at);
+CREATE INDEX IF NOT EXISTS idx_request_events_model_created ON request_events(model, created_at);
+CREATE INDEX IF NOT EXISTS idx_request_events_api_key_created ON request_events(api_key_id, created_at);
+CREATE INDEX IF NOT EXISTS idx_request_events_provider ON request_events(provider);
+CREATE INDEX IF NOT EXISTS idx_request_events_model ON request_events(model);
+CREATE INDEX IF NOT EXISTS idx_request_events_api_key_id ON request_events(api_key_id);
+CREATE INDEX IF NOT EXISTS idx_request_events_status ON request_events(status);
+CREATE INDEX IF NOT EXISTS idx_request_events_client_ip_created ON request_events(client_ip, created_at);
+CREATE INDEX IF NOT EXISTS idx_console_logs_scope_id ON console_logs(scope, id);
+CREATE INDEX IF NOT EXISTS idx_console_logs_id_desc ON console_logs(id DESC);
+CREATE INDEX IF NOT EXISTS idx_console_logs_level_ts ON console_logs(level, ts);
