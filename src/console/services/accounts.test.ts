@@ -1,6 +1,21 @@
-import { describe, expect, test } from "bun:test";
+import { afterAll, beforeAll, describe, expect, test } from "bun:test";
 import type { PostgresPool } from "../../persistence/pool.js";
 import { createAccountsService } from "./accounts.js";
+
+// Creating an account encrypts its credential, which resolves the key from
+// APP_SECRET; supply a deterministic test value and restore env afterwards.
+const TEST_APP_SECRET = "test-app-secret-for-account-quota-tests";
+let previousAppSecret: string | undefined;
+
+beforeAll(() => {
+  previousAppSecret = Bun.env.APP_SECRET;
+  Bun.env.APP_SECRET = TEST_APP_SECRET;
+});
+
+afterAll(() => {
+  if (previousAppSecret === undefined) delete Bun.env.APP_SECRET;
+  else Bun.env.APP_SECRET = previousAppSecret;
+});
 
 describe("account quota authority", () => {
   test("uses runtime quota state for list and detail responses", async () => {

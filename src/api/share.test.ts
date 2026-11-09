@@ -1,9 +1,24 @@
-import { describe, expect, test } from "bun:test";
+import { afterAll, beforeAll, describe, expect, test } from "bun:test";
 import { encryptWithKey, resolveEncryptionKey } from "../persistence/crypto.js";
 import type { PostgresPool } from "../persistence/pool.js";
 import type { ShareApiKeyRow } from "../persistence/repositories/share.js";
 import { ProviderRegistry } from "../providers/registry.js";
 import { createShareRouter } from "./share.js";
+
+// Credential encryption requires APP_SECRET; supply a deterministic test value
+// before any resolveEncryptionKey() call, and restore the environment afterwards.
+const TEST_APP_SECRET = "test-app-secret-for-share-contract-tests";
+let previousAppSecret: string | undefined;
+
+beforeAll(() => {
+  previousAppSecret = Bun.env.APP_SECRET;
+  Bun.env.APP_SECRET = TEST_APP_SECRET;
+});
+
+afterAll(() => {
+  if (previousAppSecret === undefined) delete Bun.env.APP_SECRET;
+  else Bun.env.APP_SECRET = previousAppSecret;
+});
 
 function createPool(): { pool: PostgresPool; encryptedKey: string; row: ShareApiKeyRow } {
   const encryptedKey = encryptWithKey("sk-share-secret", resolveEncryptionKey());

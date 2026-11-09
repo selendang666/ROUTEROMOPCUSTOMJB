@@ -1,8 +1,23 @@
-import { describe, expect, test } from "bun:test";
+import { afterAll, beforeAll, describe, expect, test } from "bun:test";
 import { createAccountRepository } from "../../persistence/repositories/accounts.js";
 import { createDrizzlePG } from "../../persistence/db.js";
 import type { PostgresPool } from "../../persistence/pool.js";
 import { recoverCall } from "../events/commit.js";
+
+// Account repository construction resolves the credential encryption key from
+// APP_SECRET; provide a deterministic test value and restore env afterwards.
+const TEST_APP_SECRET = "test-app-secret-for-routing-reliability-tests";
+let previousAppSecret: string | undefined;
+
+beforeAll(() => {
+  previousAppSecret = Bun.env.APP_SECRET;
+  Bun.env.APP_SECRET = TEST_APP_SECRET;
+});
+
+afterAll(() => {
+  if (previousAppSecret === undefined) delete Bun.env.APP_SECRET;
+  else Bun.env.APP_SECRET = previousAppSecret;
+});
 
 describe("routing reliability", () => {
   test("route snapshot cache is scoped and invalidates immediately", async () => {
